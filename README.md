@@ -1,1 +1,1 @@
-# Animalia
+![Logo](animalia.png)

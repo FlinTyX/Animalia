@@ -10,3 +10,6 @@ Frogs are the only animals for now, but only for now. More animals are being cre
 
 # Compatibility:
 Compatibility is not totally stable **in mobile**, also V6 _does not support the entire mod_. If you are a mobile user, please let me know if you are having issues.  Describe the problem (if there is a crash, please send the crash log) and (if possible) attach images of it. You can create a new issue here: https://github.com/FlinTyX/Animalia/issues/new.
+
+# Content
+See https://github.com/FlinTyX/Animalia/releases for more information!

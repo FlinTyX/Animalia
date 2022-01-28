@@ -15,12 +15,10 @@ const DrawConstruct = (func) => {
         draw(build){
             Draw.rect(build.block.region, build.x, build.y, build.block.rotate ? build.rotdeg() : 0);
             
-            if(build.warmup > 0.01){
-                Draw.draw(Layer.blockOver, () => {
-                    Draw.reset();
-                    Drawf.construct(build, func(build), 0, build.progress, build.warmup, build.totalProgress);
-                });
-            }
+            Draw.draw(Layer.blockOver, () => {
+                Draw.reset();
+                Drawf.construct(build, func(build), 0, build.progress, build.warmup, build.totalProgress);
+            });
 
             Draw.z(Layer.blockOver + 0.1);
             Draw.rect(this.top, build.x, build.y);

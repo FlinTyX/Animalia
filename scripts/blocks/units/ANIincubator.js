@@ -154,22 +154,16 @@ incubator.buildType = () => extend(PayloadBlock.PayloadBlockBuild, incubator, {
             this.moveOutPayload();
         }
 
-        if(this.power.status > 0.95){
-            if(this.valid()){
+        this.warmup = Mathf.approachDelta(this.warmup, Mathf.num(this.valid() && this.power.status > 0.95), 0.006);
 
-                this.warmup = Mathf.approachDelta(this.warmup, 1, 0.006);
-                this.progress += this.getProgressIncrease(this.egg.hatchTime());
+        if(this.valid() && this.power.status > 0.9){
+            this.progress += this.getProgressIncrease(this.egg.hatchTime());
 
-                if(this.progress >= 1){
-                    this.hatch();
-                }
-            } else {
-
-                this.warmup = Mathf.approachDelta(this.warmup, 0, 0.005);
-                this.progress = 0;
-
+            if(this.progress >= 1){
+                this.hatch();
             }
-        }
+
+        } else this.progress = this.progress * this.warmup;
     },
     draw(){
         Draw.rect(incubator.region, this.x, this.y);

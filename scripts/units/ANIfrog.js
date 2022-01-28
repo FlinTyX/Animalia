@@ -248,7 +248,7 @@ frog.constructor = () => extend(MechUnit, {
 frog.defaultController = prov(() => extend(AIController, {}));
 
 Events.on(Trigger.update.getClass(), () => {
-    if(!Mathf.chanceDelta(0.001) || !Vars.state.isPlaying()) return;
+    if(!Mathf.chanceDelta(0.0001) || !Vars.state.isPlaying()) return;
 
     let valids = get();
 

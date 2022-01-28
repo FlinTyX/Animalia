@@ -1,0 +1,19 @@
+size: 2
+hasItems: true
+hasPower: false
+health: 915
+update: true
+solid: true
+targetGround: true
+targetAir: true
+
+requirements: [
+    silicon/40
+    graphite/80
+]
+
+category: turret
+research: {
+    parent: frog
+    research: eggshell
+}

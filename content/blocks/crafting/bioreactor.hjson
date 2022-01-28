@@ -1,0 +1,42 @@
+health: 440
+size: 3
+solid: true
+update: true
+itemCapacity: 16
+hasItems: true
+hasLiquids: true
+outputsLiquid: true
+
+craftTime: 480
+updateEffectChance: 0
+updateEffect: none
+
+consumes: {
+    power: 4
+    items: {
+        items: [
+            spore-pod/4
+        ]
+    }
+    liquid: {
+        liquid: water
+        amount: 0.28
+    }
+}
+
+outputLiquid: {
+    liquid: nutritive-solution
+    amount: 0.18
+}
+
+category: crafting
+requirements: [
+    lead/70
+    silicon/60
+    metaglass/60
+]
+
+research: {
+    parent: eggshell-printer
+    research: cultivator
+}

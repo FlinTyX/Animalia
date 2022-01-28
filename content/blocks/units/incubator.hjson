@@ -1,0 +1,22 @@
+health: 480
+size: 3
+outputsPayload: true
+rotate: true
+solid: true
+update: true
+itemCapacity: 1
+hasItems: true
+
+consumes: {
+    power: 7.9
+}
+
+category: units
+requirements: [
+    silicon/200
+    metaglass/140
+    titanium/90
+    carbon-fiber/90
+]
+
+research: genetic-reconstructor

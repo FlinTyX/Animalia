@@ -1,0 +1,37 @@
+health: 305
+size: 2
+solid: true
+update: true
+itemCapacity: 8
+hasItems: true
+hasLiquids: true
+
+craftTime: 360
+craftEffect: smeltsmoke
+updateEffectChance: 0.008
+updateEffect: pulverizeSmall
+
+consumes: {
+    power: 2
+    items: {
+        items: [
+            sand/4
+        ]
+    }
+    liquid: {
+        liquid: water
+        amount: 0.23
+    }
+}
+
+outputItem: eggshell/1
+
+category: crafting
+requirements: [
+    copper/90
+    lead/90
+]
+
+research: {
+    parent: frog
+}

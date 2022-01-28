@@ -1,0 +1,10 @@
+type: Liquid
+heatCapacity: 0
+
+color: 8a73c6
+lightColor: a387ea
+
+research: {
+    parent: eggshell
+    produce: nutritive-solution
+}

@@ -1,0 +1,23 @@
+health: 1090
+size: 3
+solid: true
+update: true
+powerProduction: 1
+
+category: power
+
+requirements: [
+    carbon-fiber/160
+    silicon/220
+    titanium/120
+    thorium/80
+]
+
+research: {
+    parent: chlorophyll-synthesizer
+    research: [
+        carbonizer
+        solar-panel
+        diode
+    ]
+}

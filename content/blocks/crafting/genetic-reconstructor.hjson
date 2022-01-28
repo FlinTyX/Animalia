@@ -1,0 +1,38 @@
+health: 445
+size: 3
+solid: true
+update: true
+itemCapacity: 2
+hasItems: true
+hasLiquids: true
+
+craftTime: 600
+craftEffect: smeltsmoke
+
+consumes: {
+    power: 3.5
+    items: {
+        items: [
+            eggshell/1
+        ]
+    }
+    liquid: {
+        liquid: nutritive-solution
+        amount: 0.16
+    }
+}
+
+outputItem: frog-egg/1
+
+category: crafting
+requirements: [
+    silicon/95
+    graphite/120
+    metaglass/80
+    lead/120
+]
+
+research: {
+    parent: eggshell-printer
+    produce: nutritive-solution
+}

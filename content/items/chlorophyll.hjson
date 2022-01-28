@@ -1,0 +1,9 @@
+color: 4a4b53
+cost: 1.1
+
+research: {
+    parent: eggshell
+    objectives: [
+        converter
+    ]
+}

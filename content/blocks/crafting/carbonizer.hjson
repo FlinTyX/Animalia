@@ -1,0 +1,34 @@
+health: 320
+size: 2
+solid: true
+update: true
+itemCapacity: 8
+hasItems: true
+hasLiquids: false
+
+craftTime: 135
+craftEffect: smeltsmoke
+updateEffectChance: 0.008
+updateEffect: pulverizeSmall
+
+consumes: {
+    power: 3.2
+    items: {
+        items: [
+            spore-pod/1
+        ]
+    }
+}
+
+outputItem: carbon-fiber/1
+
+category: crafting
+requirements: [
+    silicon/90
+    titanium/120
+]
+
+research: {
+    parent: eggshell-printer
+    research: cultivator
+}

@@ -1,0 +1,36 @@
+health: 240
+size: 2
+solid: true
+update: true
+itemCapacity: 8
+hasItems: true
+hasLiquids: false
+
+craftTime: 200
+craftEffect: smeltsmoke
+updateEffectChance: 0.006
+updateEffect: pulverizeSmall
+
+consumes: {
+    power: 2.5
+    liquid: {
+        liquid: nutritive-solution
+        amount: 0.23
+    }
+}
+
+outputItem: chlorophyll/2
+
+category: production
+requirements: [
+    carbon-fiber/60
+    silicon/45
+    metaglass/45
+]
+
+research: {
+    parent: carbonizer
+    research: [
+        bioreactor
+    ]
+}

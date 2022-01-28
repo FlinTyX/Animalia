@@ -1,5 +1,4 @@
 ![logo](animalia.png)
-
 With the purpose of add some biology to Mindustry, Animalia is a mod that contains unique _biological forms, blocks, machines and mechanics_ to discover the world of the Animalia Kingdom!
 
 The animals are made to be cute and useful, giving the game a new vibe.

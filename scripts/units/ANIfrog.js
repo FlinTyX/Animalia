@@ -251,7 +251,7 @@ var map_valids = [];
 var map_valids_usable = false:
 var frog_thread = Threads.daemon(() => {
     while(true){
-        while(Vars.state.menu || Vars.net.server() || map_valids_usable);
+        while(Vars.net.server() || !Vars.state.isPlaying() || map_valids_usable);
         map_valids = get();
         map_valids_usable = true;
     }
@@ -262,7 +262,7 @@ Events.on(EventType.WorldLoadEvent, () => {
 });
 
 Events.on(Trigger.update.getClass(), () => {
-    if(Vars.state.menu || Vars.net.server() || !map_valids_usable || !Mathf.chanceDelta(0.0001) || !Vars.state.isPlaying()) return;
+    if(Vars.net.server() || !map_valids_usable || !Mathf.chanceDelta(0.0001) || !Vars.state.isPlaying()) return;
 
     if(map_valids.length > 0){
         //this can only spawn default teams frogs when there aren't any other teams in the current map

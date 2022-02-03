@@ -251,7 +251,7 @@ let map_valids = [];
 let map_valids_usable = false;
 const frog_thread = Threads.daemon(() => {
     while(true){
-        while(map_valids_usable);
+        while(Vars.net.server() || !Vars.state.isPlaying() || map_valids_usable);
         map_valids = get();
         map_valids_usable = true;
     }
@@ -262,7 +262,7 @@ Events.on(EventType.WorldLoadEvent, () => {
 });
 
 Events.on(Trigger.update.getClass(), () => {
-    if(!Mathf.chanceDelta(0.0001) || !Vars.state.isPlaying() || !map_valids_usable) return;
+    if(Vars.net.server() || !map_valids_usable || !Mathf.chanceDelta(0.0001) || !Vars.state.isPlaying()) return;
 
     if(map_valids.length > 0){
         if(Units.canCreate(Team.sharded, frog)){

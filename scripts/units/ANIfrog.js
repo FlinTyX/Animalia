@@ -247,18 +247,30 @@ frog.constructor = () => extend(MechUnit, {
 
 frog.defaultController = prov(() => extend(AIController, {}));
 
+var map_valids = [];
+var map_valids_usable = false:
+var frog_thread = Threads.daemon(() => {
+    while(true){
+        while(Vars.net.server() || !Vars.state.isPlaying() || map_valids_usable);
+        map_valids = get();
+        map_valids_usable = true;
+    }
+});
+
+Events.on(EventType.WorldLoadEvent, () => {
+    map_valids_usable = false;
+});
+
 Events.on(Trigger.update.getClass(), () => {
-    if(!Mathf.chanceDelta(0.0001) || !Vars.state.isPlaying()) return;
+    if(Vars.net.server() || !map_valids_usable || !Mathf.chanceDelta(0.0001) || !Vars.state.isPlaying()) return;
 
-    let valids = get();
-
-    if(valids.length > 0){
+    if(map_valids.length > 0){
         //this can only spawn default teams frogs when there aren't any other teams in the current map
         for(let i = 0; i < Team.baseTeams.length; i++){
             let team = rand(Team.baseTeams);
 
             if(team != Team.derelict && Units.canCreate(team, frog)){
-                spawn(team, rand(valids));
+                spawn(team, rand(map_valids));
 
                 if(!frog.unlocked && Vars.state.isCampaign()){
                     frog.unlock();

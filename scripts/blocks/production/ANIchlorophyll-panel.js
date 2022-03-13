@@ -22,6 +22,7 @@ const panel = extend(Block, "chlorophyll-panel", {
     drawPlace(x, y, rotation, valid){
         this.super$drawPlace(x, y, rotation, valid);
 
+        if(Vars.mobile) return;
         drawPossibleConnections(x, y, this, b =>
             b.block.usesChemicalEnergy == undefined ||
             b.connections != undefined && b.connections == 4

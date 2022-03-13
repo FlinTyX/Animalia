@@ -35,6 +35,7 @@ const converter = extend(PowerGenerator, "converter", {
     drawPlace(x, y, rotation, valid){
         this.super$drawPlace(x, y, rotation, valid);
 
+        if(Vars.mobile) return;
         drawPossibleConnections(x, y, this, b => 
             b.block.name != "animalia-chlorophyll-panel" ||
             b.block.name == "animalia-chlorophyll-panel" && b.connections() == 4

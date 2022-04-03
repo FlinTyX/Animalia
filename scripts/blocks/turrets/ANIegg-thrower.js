@@ -1,4 +1,4 @@
-const {ic} = require("libs/ANIfunctions");
+const {eggshell} = require("items/ANIeggs");
 
 const egg = extend(BulletType, {
     lifetime: 20.5,
@@ -21,7 +21,7 @@ const egg = extend(BulletType, {
     }
 });
 
-const thrower = extend(ItemTurret, "egg-thrower", {
+const thrower = module.exports = extend(ItemTurret, "egg-thrower", {
     reloadTime: 10,
     range: 75 * 2,
     recoilAmount: 2,
@@ -31,14 +31,11 @@ const thrower = extend(ItemTurret, "egg-thrower", {
     cooldown: 0.03,
     restitution: 0.035,
 
-    unitSort: UnitSorts.weakest,
-
-    init(){
-        this.super$init();
-        this.ammo(
-            ic("eggshell"), egg
-        );
-    }
+    unitSort: UnitSorts.weakest
 });
+
+thrower.ammo(
+    eggshell, egg
+);
 
 thrower.buildType = () => extend(ItemTurret.ItemTurretBuild, thrower, {});

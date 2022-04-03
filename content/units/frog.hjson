@@ -1,17 +1,8 @@
-health: 165
-targetAir: false
-targetGround: false
-flying: false
-drawCell: false
+health: 95
+targetAir: true
+targetGround: true
 isCounted: false
-hitSize: 13.5
-armor: 2
-range: 50
-speed: 0.001999
-rotateSpeed: 360
-baseRotateSpeed: 360
-canDrown: false
-commandLimit: 0
-itemCapacity: 0
+rotateShooting: true
+singleTarget: true
 
 research: core-shard

@@ -1,0 +1,6 @@
+health: 100
+isCounted: false
+
+research: {
+    parent: exotic-frog-egg
+}

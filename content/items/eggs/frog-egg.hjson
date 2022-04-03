@@ -3,5 +3,5 @@ cost: 1
 
 research: {
     parent: nutritive-solution
-    produce: frog-egg
+    research: incubator
 }

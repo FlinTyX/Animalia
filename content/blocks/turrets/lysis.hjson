@@ -1,0 +1,19 @@
+size: 4
+health: 3480
+rotateSpeed: 2.8
+recoilAmount: 4
+range: 260
+ammoPerShot: 8
+shootShake: 10
+shootSound: railgun
+ammoUseEffect: casing3
+
+requirements: [
+    carbon-fiber/400
+    plastanium/360
+    silicon/800
+    graphite/160
+    thorium/180
+]
+
+research: apoptosis

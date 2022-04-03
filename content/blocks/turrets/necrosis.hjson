@@ -1,0 +1,22 @@
+size: 2
+health: 800
+rotateSpeed: 3.8
+recoilAmount: 2
+range: 140
+inaccuracy: 10
+ammoPerShot: 2
+shootSound: artillery
+ammoUseEffect: casing2
+
+requirements: [
+    carbon-fiber/45
+    silicon/60
+    graphite/45
+]
+
+research: {
+    parent: egg-thrower
+    objectives: [
+        chlorophyll
+    ]
+}

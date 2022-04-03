@@ -1,39 +1,20 @@
 const scripts = [
     //items
-    "items/eggs",
+    "items/items", "items/eggs",
 
     //blocks
-    "blocks/crafting/carbonizer",
-    
-    "blocks/crafting/eggshell-printer", 
-
-    "blocks/crafting/bioreactor",
-
-    "blocks/crafting/genetic-reconstructor",
-
-    "blocks/units/incubator",  
-
-    "blocks/production/chlorophyll-synthesizer", "blocks/production/chlorophyll-panel",
-
-    "blocks/power/converter",
-
-    //turrets
-    "blocks/turrets/egg-thrower",
+    "blocks/blocks",
     
     //units
-    "units/frog"
+    "units/unitTypes",
+
+    //gen idk
+    "gen/weathers"
 ];
 
 function replace(str){
-    function rev(){
-        str = str.split("").reverse().join("");
-    }
-
-    rev();
-    str = str.replace("/", "INA/");
-    rev();
-
-    return str; 
+    const i = str.lastIndexOf("/");
+    return str.substring(0, i) + "/ANI" + str.substring(i + 1);
 }
 
 scripts.forEach(e => 

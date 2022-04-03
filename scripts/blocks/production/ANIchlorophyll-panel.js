@@ -1,4 +1,4 @@
-const panel = extend(Block, "chlorophyll-panel", {
+const panel = module.exports = extend(Block, "chlorophyll-panel", {
     outputsChemicalEnergy(){},
     energyOutput: 192,
 

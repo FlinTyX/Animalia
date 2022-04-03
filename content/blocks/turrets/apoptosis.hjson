@@ -1,0 +1,21 @@
+size: 3
+health: 1200
+rotateSpeed: 3
+recoilAmount: 3.8
+range: 185
+shots: 3
+ammoPerShot: 3
+maxAmmo: 33
+shootSound: artillery
+shootShake: 10
+inaccuracy: 5
+ammoUseEffect: casing2
+
+requirements: [
+    carbon-fiber/80
+    silicon/80
+    plastanium/55
+    graphite/55
+]
+
+research: necrosis

@@ -1,7 +1,7 @@
 const {DrawConstruct} = require("libs/ANIdrawers");
 
-const printer = extend(GenericCrafter, "eggshell-printer", {
-    drawer: DrawConstruct(i => i.block.outputItem.item.upRegion())
+const printer = module.exports = extend(GenericCrafter, "eggshell-printer", {
+    drawer: new DrawConstruct(e => e.block.outputItem.item.upRegion())
 });
 
 printer.buildType = () => extend(GenericCrafter.GenericCrafterBuild, printer, {

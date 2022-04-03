@@ -1,7 +1,7 @@
 const {DrawBuilding} = require("libs/ANIdrawers");
 
-const synthesizer = extend(GenericCrafter, "chlorophyll-synthesizer", {
-    drawer: DrawBuilding(Pal.heal)
+const synthesizer = module.exports = extend(GenericCrafter, "chlorophyll-synthesizer", {
+    drawer: new DrawBuilding(Pal.heal)
 });
 
 synthesizer.buildType = () => extend(GenericCrafter.GenericCrafterBuild, synthesizer, {});

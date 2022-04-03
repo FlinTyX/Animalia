@@ -1,0 +1,7 @@
+color: f3e979
+cost: 1
+
+research: {
+    parent: frog-egg
+    research: assault-frog
+}

@@ -1,7 +1,7 @@
 const {refreshNearby, drawPossibleConnections} = require("blocks/production/ANIchlorophyll-panel");
 const {nearby} = require("libs/ANIfunctions");
 
-const converter = extend(PowerGenerator, "converter", {
+const converter =  module.exports = extend(PowerGenerator, "converter", {
     usesChemicalEnergy(){},
     lightGreen: Color.valueOf("92dd7eff"),
 

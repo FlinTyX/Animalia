@@ -1,4 +1,4 @@
-const carbonizer = extend(GenericCrafter, "carbonizer", {
+const carbonizer = module.exports = extend(GenericCrafter, "carbonizer", {
     load(){
         this.super$load();
         this.heatRegion = Core.atlas.find(this.name + "-heat");
@@ -14,9 +14,10 @@ const carbonizer = extend(GenericCrafter, "carbonizer", {
 
 carbonizer.buildType = () => extend(GenericCrafter.GenericCrafterBuild, carbonizer, {
     draw(){
-        Draw.rect(carbonizer.bottomRegion, this.x, this.y);
-
         const item = this.block.outputItems[0].item;
+
+        Draw.rect(carbonizer.bottomRegion, this.x, this.y);
+        
         if(this.items.has(Items.sporePod) || this.items.has(item)){
             Draw.alpha(this.consValid() ? this.progress * 1.3 : Mathf.num(!this.items.has(Items.sporePod)));
             Draw.rect(item.fullIcon, this.x, this.y, 6, 6);

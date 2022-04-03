@@ -2,6 +2,6 @@ name: animalia
 displayName: "Animalia"
 description: "A mod that contains unique biological forms, blocks, machines and mechanics to discover the world of the Animalia Kingdom!"
 author: "Flin"
-version: "0.1"
+version: "0.1.2"
 minGameVersion: 130
 repo: FlinTyX/Animalia

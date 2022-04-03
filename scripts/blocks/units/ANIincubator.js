@@ -1,28 +1,14 @@
-const smoke = new Effect(20, e => {
-    Draw.color(e.color, Pal.lightishGray, e.fin());
-    Draw.z(Layer.block + 0.001);
+const {entityEggs} = require("items/ANIeggs"),
+      {hatchSmoke} = require("libs/ANIfx");
 
-    Angles.randLenVectors(e.id, 8, 6 * e.finpow(), (x, y) => {
-        Fill.circle(e.x + x, e.y + y, 1.15 * e.fslope());
-    });
-});
-
-const incubator = extend(PayloadBlock, "incubator", {
-    eggTypes: [],
-
+const incubator = module.exports = extend(PayloadBlock, "incubator", {
+    sync: true,
+    
     load(){
         this.super$load();
         this.heatRegion = Core.atlas.find(this.name + "-heat");
         this.glassHeatRegion = Core.atlas.find(this.name + "-glassHeat");
         this.softShadowRegion = Core.atlas.find("circle-shadow");
-    },
-    init(){
-        this.super$init();
-        Vars.content.items().each(i => {
-            if(i.name.startsWith("animalia") && i.name.endsWith("-egg")){
-                this.eggTypes.push(i);
-            }
-        });
     },
     icons(){
         return [
@@ -32,9 +18,6 @@ const incubator = extend(PayloadBlock, "incubator", {
     },
     setStats(){
         this.super$setStats();
-
-        const types = this.eggTypes;
-        const interval = new Interval();
 
         //input & output
         this.stats.add(Stat.input, extend(StatValue, {
@@ -46,9 +29,10 @@ const incubator = extend(PayloadBlock, "incubator", {
                 table.table(null, t => {
                     t.row();
 
-                    types.forEach(i => {
-                        t.row();
+                    entityEggs.forEach(i => {
+                        if((!i.unit().unlocked && Vars.state.isCampaign())) return;
 
+                        t.row();
                         t.table(null, a => {
                             a.row();
                             a.add(i.unit().localizedName);
@@ -67,8 +51,9 @@ const incubator = extend(PayloadBlock, "incubator", {
                                 e.add(Core.bundle.get("stat.output") + ":");
                                 e.add(new ItemImage(i.unit().shadowRegion, 1)).padLeft(5);
                                 e.add("[lightgray]" + i.unit().localizedName);
+                                e.row();
                             });
-                        }).width(400).padLeft(-10).padTop(10);
+                        }).width(400).padLeft(-10).padTop(15);
                     });
                 });
             }
@@ -100,8 +85,9 @@ incubator.buildType = () => extend(PayloadBlock.PayloadBlockBuild, incubator, {
     },
     hatch(){
         this.payload = new UnitPayload(this.egg.unit().create(this.team));
+        this.payload.set(this.x, this.y, this.rotdeg() - 90);
         
-        smoke.at(this.x, this.y, Pal.meltdownHit);
+        hatchSmoke.at(this.x, this.y, Pal.meltdownHit);
 
         this.items.remove(this.egg, 1);
         this.progress = 0;
@@ -129,7 +115,7 @@ incubator.buildType = () => extend(PayloadBlock.PayloadBlockBuild, incubator, {
 
             if(canMove){
                 if(this.movePayload(this.payload)){
-                    smoke.at(this.x, this.y, Color.gray);
+                    hatchSmoke.at(this.x, this.y, Color.gray);
                     this.payload = null;
                 }
             }
@@ -169,14 +155,16 @@ incubator.buildType = () => extend(PayloadBlock.PayloadBlockBuild, incubator, {
         Draw.rect(incubator.region, this.x, this.y);
         Draw.rect(incubator.outRegion, this.x, this.y, this.rotdeg());
 
-        Draw.color(Color.orange, Color.yellow, Pal.accent, Mathf.absin(Time.time, 8, 1));
-        Draw.alpha(this.warmup * (0.55 + Mathf.absin(Time.time, 10, 0.2)));
-        Draw.blend(Blending.additive);
-        Draw.rect(incubator.heatRegion, this.x, this.y);
+        if(this.warmup > 0.00001){
+            Draw.color(Color.orange, Color.yellow, Pal.accent, Mathf.absin(Time.time, 8, 1));
+            Draw.alpha(this.warmup * (0.55 + Mathf.absin(Time.time, 10, 0.2)));
+            Draw.blend(Blending.additive);
+            Draw.rect(incubator.heatRegion, this.x, this.y);
 
-        Draw.blend();
-        Draw.color();
-        Draw.reset();
+            Draw.blend();
+            Draw.color();
+            Draw.reset();
+        }
 
         if(this.valid()){
 
@@ -184,11 +172,11 @@ incubator.buildType = () => extend(PayloadBlock.PayloadBlockBuild, incubator, {
 
         } else if(this.payload != null){
 
-            const region = this.payload.unit.type.shadowRegion; //full sprite
+            const region = this.payload.unit.icon(); //full sprite
 
             const m = 1 + Mathf.sin(Time.time, 25, 0.1);
-            const width = region.width * Draw.scl * m;
-            const height = region.height * Draw.scl * m;
+            const width = region.width * Draw.scl * Draw.xscl * m;
+            const height = region.height * Draw.scl * Draw.yscl * m;
 
             const sw = width / 28;
             const sh = height / 28;
@@ -210,7 +198,7 @@ incubator.buildType = () => extend(PayloadBlock.PayloadBlockBuild, incubator, {
                 this.valid() ? 
                     this.egg.upRegion() :
                     this.payload != null ?
-                        this.payload.unit.type.shadowRegion
+                        this.payload.unit.type.fullIcon
                         :
                         Icon.warning
                 )
@@ -229,7 +217,7 @@ incubator.buildType = () => extend(PayloadBlock.PayloadBlockBuild, incubator, {
     },
     acceptItem(source, item){
         return (
-            incubator.eggTypes.indexOf(item) != -1 && 
+            entityEggs.indexOf(item) != -1 && 
             this.items.get(item) < this.block.itemCapacity &&
             source.team == this.team && 
             !this.payload

@@ -1,31 +1,19 @@
-const {uc} = require("libs/ANIfunctions");
+const {EntityEggType, EggType} = require("types/EggTypes");
 
-const eggshell = extend(Item, "eggshell", {
-    load(){
-        this.super$load();
-        this.up = Core.atlas.find(this.name + "-up");
-    },
-    upRegion(){
-        return this.up;
-    }
-});
+function entities(){
+    const copy = [],
+          filtered = Object.keys(module.exports).filter(e => e != "eggshell");
+    
+    filtered.forEach(e => copy.push(module.exports[e]));
 
-const frogEgg = extend(Item, "frog-egg", {
-    load(){
-        this.super$load();
-        this.up = Core.atlas.find(this.name + "-up");
-    },
-    init(){
-        this.super$init();
-        this.entity = uc("frog");
-    },
-    hatchTime(){
-        return 60 * 10;
-    },
-    upRegion(){
-        return this.up;
-    },
-    unit(){
-        return this.entity;
-    }
-});
+    return copy;
+}
+
+module.exports = {
+    eggshell: new EggType("eggshell"),
+    frogEgg: new EntityEggType("frog-egg", "frog"),
+    assaultFrogEgg: new EntityEggType("assault-frog-egg", "assault-frog", 60 * 25),
+    exoticFrogEgg: new EntityEggType("exotic-frog-egg", "exotic-frog", 60 * 18)
+}
+
+module.exports.entityEggs = entities();

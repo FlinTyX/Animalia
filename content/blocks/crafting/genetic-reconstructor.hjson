@@ -2,7 +2,7 @@ health: 445
 size: 3
 solid: true
 update: true
-itemCapacity: 2
+itemCapacity: 1
 hasItems: true
 hasLiquids: true
 

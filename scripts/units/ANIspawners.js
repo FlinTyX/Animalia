@@ -3,19 +3,21 @@ const GroupSpawner = require("types/spawners/GroupSpawner"),
 
 module.exports = {
     FrogSpawner: new GroupSpawner({
-        chance: 0.00002,
+        chance: 0.02,
     
         add(){
             for(let e of arguments){
                 this.types.push({type: e, map: []});
-                this.refresh(this.types[this.types.length - 1]);
             }
     
+            if(Vars.state.isPlaying()){
+                this.refresh();
+            }
+
             return this;
         },
         push(element){
-            this.types.push({type: element, map: []});
-            this.refresh(this.types[this.types.length - 1]);
+            this.add(element);
     
             return element;
         },

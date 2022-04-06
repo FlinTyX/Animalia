@@ -24,19 +24,22 @@ module.exports = {
                    (sorted.type.unlocked || !Vars.state.isCampaign()) && 
                    sorted.map.length > 0;
         },
-        refresh(sorted){
-            sorted.map.length = 0;
+        refresh(){
+            this.types.forEach(e => e.map.length = 0);
+
             Vars.world.tiles.eachTile(t => {
-                if(!t.solid() && sorted.type.spawnFloors.indexOf(t.floor().localizedName) != -1){
-                    let a = around(t.x, t.y, 1, e => sorted.type.validateSpawn(e));
-        
-                    if(a.length > 0){
-                        sorted.map.push({
-                            tile: t,
-                            floors: a      
-                        });
+                this.types.forEach(element => {
+                    if(!t.solid() && element.type.spawnFloors.indexOf(t.floor().localizedName) != -1){
+                        let a = around(t.x, t.y, 1, e => element.type.validateSpawn(e));
+            
+                        if(a.length > 0){
+                            element.map.push({
+                                tile: t,
+                                floors: a      
+                            });
+                        }
                     }
-                }
+                });
             });
         },
         create(team, type, object){
@@ -67,5 +70,5 @@ module.exports = {
 }
 
 Events.on(WorldLoadEvent, () => {
-    module.exports.FrogSpawner.types.forEach(t => module.exports.FrogSpawner.refresh(t));
+    module.exports.FrogSpawner.refresh();
 });

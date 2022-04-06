@@ -1,7 +1,6 @@
 const Consequences = require("types/weathers/CataclysmConsequences"),
       StormWeather = require("types/weathers/StormWeather"),
-      EmberWeather = require("types/weathers/EmberWeather"),
-      worldTiles = [];
+      EmberWeather = require("types/weathers/EmberWeather");
 
 function hasWeather(){
     const args = [].slice.call(arguments);
@@ -19,8 +18,16 @@ function addWeather(){
 
 function containsFloor(){
     const args = [].slice.call(arguments);
+    let contains = false;
 
-    return worldTiles.filter(e => args.indexOf(e.floor()) != -1).length > 0;
+    Vars.world.tiles.eachTile(t => {
+        if(args.indexOf(t.floor()) != -1){
+            contains = true;
+            return;
+        }
+    });
+
+    return contains;
 }
 
 module.exports = {
@@ -71,12 +78,8 @@ module.exports = {
 }
 
 Events.on(WorldLoadEvent, () => {
-    Time.run(120, () => {
+    Time.run(1, () => {
         if(Vars.state.isMenu() || Vars.net.client()) return;
-        
-        worldTiles.length = 0;
-
-        Vars.world.tiles.eachTile(e => worldTiles.push(e));
 
         module.exports.init();
     });

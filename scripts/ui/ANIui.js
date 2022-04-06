@@ -41,7 +41,7 @@ module.exports = {
     },
 
     statValueBundle(stat, value){
-        return this.statValue(stat, Core.bundle.get(value));
+        return module.exports.statValue(stat, Core.bundle.get(value));
     },
 
     init(){

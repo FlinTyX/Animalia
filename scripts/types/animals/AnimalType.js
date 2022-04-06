@@ -2,12 +2,8 @@ function AnimalType(name, object){
     this.name = name;
 
     return extend(UnitType, this.name, Object.assign({
-        eggType: undefined,
         registeredId: -1,
-
-        getClass(){
-            return Class.forName("mindustry.type.UnitType");
-        },
+ 
         animalType(){
             return AnimalType;
         },

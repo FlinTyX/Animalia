@@ -3,7 +3,7 @@ const GroupSpawner = require("types/spawners/GroupSpawner"),
 
 module.exports = {
     FrogSpawner: new GroupSpawner({
-        chance: 0.02,
+        chance: 0.00002,
     
         add(){
             for(let e of arguments){

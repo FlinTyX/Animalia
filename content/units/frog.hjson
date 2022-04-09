@@ -1,7 +1,6 @@
 health: 95
 targetAir: true
 targetGround: true
-isCounted: false
 rotateShooting: true
 singleTarget: true
 

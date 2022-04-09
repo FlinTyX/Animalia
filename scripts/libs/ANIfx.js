@@ -34,11 +34,11 @@ module.exports = {
     }),
 
     screenLightning: new Effect(30, e => {
-        e.scaled(15 + Mathf.randomSeed(e.id, 8), i => {
+        e.scaled(15 + Mathf.randomSeed(e.id, 10), i => {
 
-            Draw.color(Pal.lancerLaser, Pal.spore, i.fin());
+            Draw.color(e.color, Pal.spore, i.fin());
             Draw.alpha(Mathf.randomSeed(i.id, 0.8) * i.fout());
-            Fill.square(i.x, i.y, Core.graphics.getWidth(), Core.graphics.getHeight());
+            Fill.square(i.x, i.y, Core.camera.width, Core.camera.height);
 
         });
     }),
@@ -57,6 +57,14 @@ module.exports = {
     fireflyTrail: new Effect(75, e => {
         Draw.color(e.color);
         Fill.circle(e.x, e.y, e.rotation * e.fout());
+    }),
+
+    lightTrail1: new Effect(180, e => {
+        if(!e.data) return;
+
+        Tmp.v1.trns(e.rotation, e.data * e.fout(Interp.pow10In));
+
+        Drawf.light(Team.derelict, e.x - Tmp.v1.x, e.y - Tmp.v1.y, e.x, e.y, 16, e.color, 0.6 - (0.3 * e.fin()));
     }),
 
     unitRemove: new Effect(10, e => {
@@ -162,28 +170,37 @@ module.exports = {
         });
     }),
 
-    thunder1: new Effect(30, e => {
-        Fill.circle(e.x, e.y, 12 * e.fout());
+    thunder1: new Effect(40, 500, e => {
+        let w = 15 * e.fout(), 
+            w2 = w / 2,
+            w3 = w2 * 0.7,
+            h = 130, 
+            r = Mathf.randomSeed(e.id, -2, 2) * e.fin(), 
+            ox = Core.camera.width / 2;
 
-        let w = 8 * e.fout(), h = 80, r = -2 * e.fin();
-
+        Draw.color(Pal.lancerLaser, Color.purple, e.fin());
         Drawf.tri(e.x, e.y, w, h, r);
         Drawf.tri(e.x, e.y, w, h, r + 180);
+        
+        Fill.circle(e.x, e.y, 14 * e.fout());
+        Fill.quad(e.x + w2, e.y, e.x - w2, e.y, e.x - w2 * 3, e.y + ox, e.x + w2 * 3, e.y + ox);
+        
+        Draw.color();
+        Fill.quad(e.x + w3, e.y, e.x - w3, e.y, e.x - w3 * 3, e.y + ox, e.x + w3 * 3, e.y + ox);
+        Draw.color(Pal.meltdownHit, Pal.spore, e.fin());
 
-        Angles.randLenVectors(e.id, 15, 40 + e.fin(), (x, y) => {
+        Angles.randLenVectors(e.id, 15, 40 + 40 * e.finpow(), (x, y) => {
             Fill.circle(e.x + x, e.y + y, 0.8 * e.fout());
         });
 
-        Angles.randLenVectors(e.id, 15, 30 + (8 * e.fin()), (x, y) => {
+        Angles.randLenVectors(e.id, 15, 60 + (40 * e.fin()), (x, y) => {
             Fill.circle(e.x + x, e.y + y, e.fout());
         });
 
         e.scaled(10, i => {
-
-        Lines.stroke(3.5 * i.fout());
-        Lines.circle(i.x, i.y, 40 * i.fin());
-        Lines.circle(i.x, i.y, 20 * e.fout());
-
+            Lines.stroke(4 * i.fout());
+            Lines.circle(i.x, i.y, 90 * i.fin());
+            Lines.circle(i.x, i.y, 50 * e.fout());
         });
     })
 }

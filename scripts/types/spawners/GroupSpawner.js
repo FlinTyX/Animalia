@@ -38,7 +38,7 @@ module.exports = function(object){
 
         const sorted = this.spawner.sort();
 
-        if(Vars.state.isPlaying() && !Vars.net.server() && this.spawner.shouldSpawn()){
+        if(Vars.state.isPlaying() && !Vars.net.client() && this.spawner.shouldSpawn()){
             if(this.spawner.randomTeam){
                 const valids = Vars.state.teams.active.select(e => this.spawner.valid(sorted, e.team));
 

@@ -18,7 +18,7 @@ module.exports = {
     randomElement(arr){
         return arr[Math.floor(Math.random() * arr.length)];
     },
-
+    
     //DEPRECATED
     around(tx, ty, range, bool){
         let arr = [];
@@ -44,7 +44,7 @@ module.exports = {
     },
 
     movingAngle(unit){
-        if(!this.moving(unit)){
+        if(!module.exports.moving(unit)){
             return unit.rotation;
         } else {
             return unit.angleTo(unit.x + unit.vel.x, unit.y + unit.vel.y);

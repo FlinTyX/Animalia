@@ -1,7 +1,6 @@
 health: 115
 targetAir: true
 targetGround: true
-isCounted: true
 armor: 2
 rotateShooting: false
 

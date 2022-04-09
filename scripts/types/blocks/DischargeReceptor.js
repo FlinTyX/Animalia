@@ -53,7 +53,7 @@ module.exports = function(name, object){
                         }
                     });
                 } else if(Mathf.chanceDelta(0.2)){
-                    this.damage(30);
+                    this.damage(20);
                 }
             }
         },

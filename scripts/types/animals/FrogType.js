@@ -12,6 +12,7 @@ function FrogType(name, object){
         flying: false,
         drawCell: false,
         drawBody: false,
+        isCounted: false,
 
         hitSize: 10,
         speed: 0.001999,

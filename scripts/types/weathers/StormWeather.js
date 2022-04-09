@@ -46,7 +46,7 @@ module.exports = function(name, object){
         },
         update(state){
             if(Mathf.chanceDelta(this.lightningChance * state.opacity * state.intensity / 2)){
-                screenLightning.at(Core.camera.position.x, Core.camera.position.y);
+                screenLightning.at(Core.camera.position.x, Core.camera.position.y, Pal.lancerLaser);
 
                 if(Mathf.chanceDelta(1 - (this.lightningChance * 10))){
                     let mag = Math.random() * 5;

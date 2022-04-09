@@ -1,5 +1,5 @@
 const {randomElement} = require("libs/ANIfunctions"),
-      {thunder1} = require("libs/ANIfx"),
+      {thunder1, screenLightning} = require("libs/ANIfx"),
       {thunderBoom} = require("libs/ANIsounds");
 
 function Consequence(name, object){
@@ -22,7 +22,7 @@ module.exports = {
             damageRadius: 200,
 
             thunders: 1,
-            thunderShake: 10,
+            thunderShake: 20,
             thunderEffect: thunder1,
             thunderSound: thunderBoom,
 
@@ -31,6 +31,10 @@ module.exports = {
                 Fx.massiveExplosion.at(x, y);
                 this.thunderEffect.at(x, y);
                 this.thunderSound.at(x, y);
+
+                if(Tmp.r1.setCentered(x, y, Core.camera.width, Core.camera.height).overlaps(Core.camera.bounds(Tmp.r2))){
+                    screenLightning.at(x, y, Color.white);
+                }
             },
             update(state){
                 const builds = [];

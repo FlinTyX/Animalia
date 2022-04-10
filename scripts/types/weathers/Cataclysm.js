@@ -35,7 +35,9 @@ module.exports = function(/**base, name, object */){
             return false;
         },
         create(intensity, duration){
-            this.initConsequences(this.super$create(intensity, duration));
+            const weather = this.super$create(intensity, duration);
+
+            this.initConsequences(weather);
 
             Groups.build.each(b => {
                 if(b.setCataclysm){
@@ -46,6 +48,8 @@ module.exports = function(/**base, name, object */){
             if(this.showWarning){
                 cataclysmFrag.collapse(this.build(), this.warnDuration, this.consequences);
             }
+
+            return weather;
         },
         remove(){
             this.super$remove();

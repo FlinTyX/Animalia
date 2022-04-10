@@ -4,6 +4,9 @@ function AnimalType(name, object){
     return extend(UnitType, this.name, Object.assign({
         registeredId: -1,
  
+        getClass(){
+            return Packages.mindustry.type.UnitType;
+        },
         animalType(){
             return AnimalType;
         },

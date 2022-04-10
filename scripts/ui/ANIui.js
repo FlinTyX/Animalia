@@ -1,7 +1,5 @@
-const CataclysmFrag = require("ui/fragments/CataclysmFragment")
-
 module.exports = {
-    cataclysmFrag: CataclysmFrag,
+    cataclysmFrag: require("ui/fragments/CataclysmFragment"),
 
     addStats(stats, main, keepStat, values){
         stats.add(main, extend(StatValue, {
@@ -50,7 +48,5 @@ module.exports = {
 };
 
 Events.on(ClientLoadEvent, () => {
-    if(!Vars.headless){
-        module.exports.init();
-    }
+    module.exports.init();
 });

@@ -1,7 +1,7 @@
 const crashes = {length: 0, latest: null},
       ANIlinks = require("ui/ANIlinks"),
       RedirectURLDialog = require("ui/dialogs/RedirectURLDialog");
-      
+
 module.exports = {
     reportDialog: new RedirectURLDialog("report", () => {
         return "https://github.com/FlinTyX/Animalia/issues/new?assignees=&labels=bug&body=" + Strings.encode(Strings.format(
@@ -64,7 +64,7 @@ module.exports = {
     },
 
     init(){
-        module.exports.setupRules();
+        module.exports.setup();
         module.exports.cataclysmFrag.build(Vars.ui.hudGroup);
 
         ANIlinks.setup();
@@ -76,7 +76,7 @@ module.exports = {
         );
     },
 
-    setupRules(){
+    setup(){
         crashes.length = Core.settings.getDataDirectory().child("crashes").file().listFiles().length;
         crashes.latest = Core.settings.getDataDirectory().child("crashes").file().listFiles()[0];
 

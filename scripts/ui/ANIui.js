@@ -1,6 +1,7 @@
 const crashes = {length: 0, latest: null},
       ANIlinks = require("ui/ANIlinks"),
       RedirectURLDialog = require("ui/dialogs/RedirectURLDialog");
+      
 module.exports = {
     reportDialog: new RedirectURLDialog("report", () => {
         return "https://github.com/FlinTyX/Animalia/issues/new?assignees=&labels=bug&body=" + Strings.encode(Strings.format(

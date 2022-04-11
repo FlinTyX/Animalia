@@ -8,8 +8,7 @@ module.exports = {
             "**Describe Your Issue**: ..." + "\n\n" +
             "**Platform**: `@`" + "\n" +
             "**Version**: `@`" + ", `Animalia @`" + "\n" +
-            "**Latest Crash**: `@`" + "\n" +
-            "**Crash Index**: `@`" + "\n\n" +
+            "**Latest Crash**: `@`" + "\n\n" +
             "Thanks for reporting your issue! It will be fixed as soon as possible.",
 
             OS.isAndroid ? "Android " + Core.app.getVersion() : (OS.osName + " x" + OS.osArchBits),

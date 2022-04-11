@@ -15,7 +15,6 @@ module.exports = {
             Version.combined(), 
             Vars.mods.getMod("animalia").meta.version,
             crashes.latest, //how can i read whats inside it?
-            crashes.length
         ));
             
     }),

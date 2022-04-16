@@ -31,7 +31,7 @@ module.exports = {
 
             Vars.world.tiles.eachTile(t => {
                 this.types.forEach(element => {
-                    if(!t.solid() && element.type.spawnFloors.indexOf(t.floor().localizedName) != -1){
+                    if(!t.solid() && element.type.spawnFloors.includes(t.floor().localizedName)){
                         let a = around(t.x, t.y, 1, e => element.type.validateSpawn(e));
             
                         if(a.length > 0){

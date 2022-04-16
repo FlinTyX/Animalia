@@ -217,7 +217,7 @@ incubator.buildType = () => extend(PayloadBlock.PayloadBlockBuild, incubator, {
     },
     acceptItem(source, item){
         return (
-            entityEggs.indexOf(item) != -1 && 
+            entityEggs.includes(item) && 
             this.items.get(item) < this.block.itemCapacity &&
             source.team == this.team && 
             !this.payload

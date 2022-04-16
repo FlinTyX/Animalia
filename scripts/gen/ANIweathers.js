@@ -5,7 +5,7 @@ const Consequences = require("types/weathers/CataclysmConsequences"),
 function hasWeather(){
     const args = [].slice.call(arguments);
 
-    return Vars.state.rules.weather.select(e => args.indexOf(e.weather) != -1).size > 0;
+    return Vars.state.rules.weather.select(e => args.includes(e.weather)).size > 0;
 }
 
 function addWeather(){
@@ -21,7 +21,7 @@ function containsFloor(){
     let contains = false;
 
     Vars.world.tiles.eachTile(t => {
-        if(args.indexOf(t.floor()) != -1){
+        if(args.includes(t.floor())){
             contains = true;
             return;
         }

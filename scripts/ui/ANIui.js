@@ -1,6 +1,7 @@
 const crashes = {length: 0, latest: null},
       ANIlinks = require("ui/ANIlinks"),
-      RedirectURLDialog = require("ui/dialogs/RedirectURLDialog");
+      RedirectURLDialog = require("ui/dialogs/RedirectURLDialog"),
+      ClearDialogStyle = extend(Dialog.DialogStyle, {background: null});
 
 module.exports = {
     reportDialog: new RedirectURLDialog("report", () => {
@@ -21,6 +22,13 @@ module.exports = {
     }),
 
     cataclysmFrag: require("ui/fragments/CataclysmFragment"),
+
+    ClearDialog(){
+        const dialog = new Dialog();
+        dialog.setStyle(ClearDialogStyle);
+    
+        return dialog;
+    },
 
     addStats(stats, main, keepStat, values){
         stats.add(main, extend(StatValue, {
@@ -69,26 +77,28 @@ module.exports = {
 
         ANIlinks.setup();
 
-        Vars.ui.settings.graphics.checkPref(
-            "crashreport", 
-            Core.settings.getBool("crashreport"),
-            bool => Core.settings.put("crashreport", bool)
+        Vars.ui.settings.game.checkPref(
+            "reportcrash", 
+            Core.settings.getBool("reportcrash"),
+            bool => Core.settings.put("reportcrash", bool)
         );
     },
 
     setup(){
-        crashes.length = Core.settings.getDataDirectory().child("crashes").file().listFiles().length;
-        crashes.latest = Core.settings.getDataDirectory().child("crashes").file().listFiles()[0];
+        try {
+            crashes.length = Core.settings.getDataDirectory().child("crashes").file().listFiles().length;
+            crashes.latest = Core.settings.getDataDirectory().child("crashes").file().listFiles()[0];
+        } catch(ignore){}
 
         if(!Core.settings.has("crashcounter")){
             Core.settings.put("crashcounter", new Packages.java.lang.Integer(crashes.length));
         }
 
-        if(!Core.settings.has("crashreport")){
-            Core.settings.put("crashreport", true);
+        if(!Core.settings.has("reportcrash")){
+            Core.settings.put("reportcrash", true);
         }
 
-        if(Core.settings.getInt("crashcounter") > 0 && Core.settings.getInt("crashcounter") < crashes.length && Core.settings.getBool("crashreport")){
+        if(Core.settings.getInt("crashcounter") > 0 && Core.settings.getInt("crashcounter") < crashes.length && Core.settings.getBool("reportcrash")){
             module.exports.reportDialog.build();
 
             Core.settings.put("crashcounter", new Packages.java.lang.Integer(crashes.length));

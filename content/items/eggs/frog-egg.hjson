@@ -1,7 +1,0 @@
-color: deffdd
-cost: 1
-
-research: {
-    parent: nutritive-solution
-    research: incubator
-}

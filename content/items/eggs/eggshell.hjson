@@ -1,6 +1,0 @@
-color: ffffff
-
-research: {
-    parent: frog
-    research: eggshell-printer
-}

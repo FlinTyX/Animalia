@@ -1,8 +1,0 @@
-color: 92dd7e
-cost: 1
-
-research: {
-    parent: frog-egg
-    produce: frog-egg
-    research: chlorophyll-synthesizer
-}

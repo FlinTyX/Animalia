@@ -1,7 +1,0 @@
-color: 404040
-cost: 1.2
-
-research: {
-    parent: eggshell
-    produce: eggshell
-}

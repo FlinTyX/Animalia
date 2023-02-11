@@ -7,6 +7,7 @@ import arc.math.Mathf;
 import arc.math.geom.Point3;
 import arc.struct.Seq;
 import arc.util.Time;
+import mindustry.Vars;
 import mindustry.gen.Building;
 import mindustry.graphics.Layer;
 import mindustry.world.Block;
@@ -36,8 +37,10 @@ public class SeasonalTree extends Block{
         super(name);
 
         solid = true;
+        update = true;
         replaceable = false;
         destructible = false;
+        targetable = false;
         clipSize = 500 * Draw.scl;
 
         buildVisibility = BuildVisibility.editorOnly;
@@ -61,6 +64,11 @@ public class SeasonalTree extends Block{
         region = regions[0];
     }
 
+    @Override
+    public boolean canBreak(Tile tile){
+        return Vars.state.isEditor();
+    }
+
     public class SeasonalTreeBuild extends Building implements SeasonalBlock {
         public Seq<Point3> occupied = new Seq<>();
 
@@ -68,14 +76,14 @@ public class SeasonalTree extends Block{
         public void draw(){
             float fin = 1 - Core.camera.width / Core.graphics.getWidth(),
                   f = Math.max(1, fin + 0.35f),
-                  scl = 30f, mag = 0.2f;
+                  scl = 40f, mag = 0.35f;
 
             for(int i = 0; i < layers; i++){
                 TextureRegion region = regions[i], shadow = shadows[i];
 
                 float w = region.width * region.scl() * f,
                       h = region.height * region.scl() * f,
-                      step = (i + 1) / layers * 0.4f;
+                      step = 0.4f + (i + 1) / layers;
 
                 //real shadow
                 Draw.z(Layer.power + 0.5f);

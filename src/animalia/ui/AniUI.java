@@ -1,9 +1,7 @@
 package animalia.ui;
 
+import animalia.ui.dialogs.ReportDialog;
 import arc.Core;
-import arc.scene.Element;
-import arc.scene.ui.layout.Table;
-import arc.struct.ObjectMap;
 import arc.struct.Seq;
 import mindustry.Vars;
 import animalia.ui.fragments.CataclysmFragment;
@@ -12,11 +10,11 @@ import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatValue;
 import mindustry.world.meta.Stats;
 
-import java.lang.reflect.Array;
-
 public class AniUI {
     public static CataclysmFragment cataclysmFrag;
     public static TemperatureFragment tempFrag;
+
+    public static ReportDialog reportDialog;
 
     public AniUI(){
 
@@ -25,9 +23,29 @@ public class AniUI {
     public static void load(){
         cataclysmFrag = new CataclysmFragment();
         tempFrag = new TemperatureFragment();
+        reportDialog = new ReportDialog();
 
-        tempFrag.build(Vars.ui.hudGroup);
         cataclysmFrag.build(Vars.ui.hudGroup);
+        tempFrag.build(Vars.ui.hudGroup);
+
+        reportDialog.load();
+
+        AniLinks.load();
+
+        if(!Core.settings.has("reportcrash")) Core.settings.put("reportcrash", true);
+        if(!Core.settings.has("entryweathers")) Core.settings.put("entryweathers", true);
+
+        Vars.ui.settings.game.checkPref(
+            "reportcrash",
+            Core.settings.getBool("reportcrash"),
+            bool -> Core.settings.put("reportcrash", bool)
+        );
+
+        Vars.ui.settings.game.checkPref(
+            "entryweathers",
+            Core.settings.getBool("entryweathers"),
+            bool -> Core.settings.put("entryweathers", bool)
+        );
     }
 
     public static <T> void addStats(Stats stats, Stat main, boolean keepStat, String... values){

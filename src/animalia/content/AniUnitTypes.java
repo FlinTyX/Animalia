@@ -1,14 +1,23 @@
 package animalia.content;
 
 import animalia.entities.units.FrogEntity;
+import animalia.type.FrogWeapon;
 import animalia.type.unit.*;
 import arc.func.*;
+import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
+import arc.math.Angles;
+import arc.math.Mathf;
 import arc.struct.*;
 import arc.struct.ObjectMap.*;
+import arc.util.Time;
+import arc.util.Tmp;
 import mindustry.content.Blocks;
 import mindustry.entities.bullet.BasicBulletType;
+import mindustry.entities.units.WeaponMount;
 import mindustry.gen.*;
-import mindustry.type.Weapon;
+
+import static animalia.sound.AniSounds.*;
 
 @SuppressWarnings("unchecked")
 public class AniUnitTypes {
@@ -64,14 +73,15 @@ public class AniUnitTypes {
     }
 
     public static FrogType
-    frog, assaultFrog, exoticFrog, glidingFrog;
+    frog, assaultFrog, leopardFrog, exoticFrog, glidingFrog, phroge;
 
     public static void load(){
         setupID();
 
         frog = new FrogType("frog"){{
+            alwaysUnlocked = true;
+            ambientSound = ribbit1;
             targetAir = true;
-            targetGround = true;
             usesTongue = true;
             health = 100;
 
@@ -79,14 +89,16 @@ public class AniUnitTypes {
         }};
 
         assaultFrog = new FrogType("assault-frog"){{
+            ambientSound = ribbit2;
             targetAir = true;
             targetGround = true;
+            mineRange = 40;
             health = 115;
             armor = 2;
 
             spawnsOn.add(Blocks.water, Blocks.darksandWater);
 
-            weapons.add(new Weapon(name + "-cannon"){{
+            weapons.add(new FrogWeapon("animalia-assault-cannon"){{
                 x = 0;
                 y = -0.2f;
 
@@ -98,7 +110,7 @@ public class AniUnitTypes {
                 rotate = true;
                 ignoreRotation = true;
 
-                bullet = new BasicBulletType(2.5f, 8){{
+                bullet = new BasicBulletType(2.5f, 6) {{
                     width = 6;
                     height = 7;
                     lifetime = 60;
@@ -106,13 +118,31 @@ public class AniUnitTypes {
             }});
         }};
 
+        leopardFrog = new FrogType("leopard-frog"){{
+            ambientSound = ribbit2;
+            targetAir = true;
+            targetGround = true;
+            usesTongue = true;
+            health = 100;
+            armor =  2;
+
+            jumpTime = 35;
+            jumpChance  = 0.004f;
+            spawnChance = 0.8f;
+
+            spawnsOn.add(Blocks.water, Blocks.darksandWater);
+        }};
+
         exoticFrog = new PoisonousFrogType("exotic-frog"){{
-            mineRange = 15;
+            ambientSound = ribbit1;
+            mineRange = 10;
 
             spawnsOn.add(Blocks.taintedWater, Blocks.darksandTaintedWater, Blocks.darksandWater);
         }};
 
+        /*
         glidingFrog =  new FrogType("gliding-frog"){{
+            ambientSound = ribbit1;
             targetAir = true;
             targetGround = true;
             usesTongue = true;
@@ -121,5 +151,19 @@ public class AniUnitTypes {
 
             spawnsOn.add(Blocks.water, Blocks.darksandWater);
         }};
+         */
+
+        phroge = new FrogType("phroge"){{
+            spawnChance = 0.01f;
+            health = 230;
+
+            spawnsOn.add(Blocks.water, Blocks.darksandWater);
+        }
+            @Override
+            public void applyColor(Unit unit){
+                super.applyColor(unit);
+                Draw.color(Tmp.c1.set(Color.pink).shiftHue(Time.time * (3f + Mathf.randomSeed(unit.id, 1))), 1f);
+            }
+        };
     }
 }

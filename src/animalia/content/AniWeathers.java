@@ -12,20 +12,10 @@ import static mindustry.Vars.*;
 
 public class AniWeathers {
     public static Weather
-    storm,
-    tropicalStorm;
+    tropicalStorm,
+    storm;
 
     public static void load(){
-        storm = new StormCataclysm("storm"){{
-            warns = false;
-            updates = true;
-
-            child = tropicalStorm;
-
-            attrs.set(Attribute.light, -0.3f);
-            attrs.set(Attribute.water, 0.4f);
-        }};
-
         tropicalStorm = new StormCataclysm("tropical-storm"){{
             consequences = new Consequence[]{new Consequences.Thunder()};
 
@@ -44,6 +34,16 @@ public class AniWeathers {
 
             attrs.set(Attribute.light, -0.6f);
             attrs.set(Attribute.water, 0.7f);
+        }};
+
+        storm = new StormCataclysm("storm"){{
+            warns = false;
+            updates = true;
+
+            child = tropicalStorm;
+
+            attrs.set(Attribute.light, -0.3f);
+            attrs.set(Attribute.water, 0.4f);
         }};
     }
 

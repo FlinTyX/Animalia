@@ -2,16 +2,15 @@ package animalia;
 
 import static mindustry.Vars.*;
 
-import animalia.content.AniBlocks;
-import animalia.content.AniStatuses;
-import animalia.content.AniUnitTypes;
+import animalia.content.*;
+import animalia.ui.AniTex;
 import animalia.world.WorldSetup;
 import arc.Core;
 import arc.Events;
+import arc.util.Time;
 import mindustry.game.EventType;
 import mindustry.game.EventType.*;
 import mindustry.mod.Mod;
-import animalia.content.AniWeathers;
 import animalia.ui.AniUI;
 
 public class Animalia extends Mod {
@@ -25,13 +24,13 @@ public class Animalia extends Mod {
     @Override
     public void init(){
         if(!headless) {
-            world.setup();
+            AniTex.load();
 
-            Events.on(ClientLoadEvent.class, e -> {
-                ui.load();
-            });
+            Events.on(ClientLoadEvent.class, e -> ui.load());
+            Events.on(WorldLoadEvent.class, e -> Time.run(5, () -> world.onLoad()));
+            Events.run(Trigger.newGame, () -> Time.run(3, () -> world.onCreate()));
 
-            Events.run(EventType.Trigger.update, () -> {
+            Events.run(Trigger.update, () -> {
                 world.update();
             });
         }
@@ -39,10 +38,14 @@ public class Animalia extends Mod {
 
     @Override
     public void loadContent(){
-        AniWeathers.load();
+        AniLiquids.load();
         AniStatuses.load();
-        AniBlocks.load();
         AniUnitTypes.load();
+        AniItems.load();
+        AniBlocks.load();
+        AniWeathers.load();
+        AniShaders.load();
+        AniTechTree.load();
     }
 
     public static float sfxvol(){

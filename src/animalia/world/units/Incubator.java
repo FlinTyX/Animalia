@@ -36,8 +36,8 @@ import mindustry.world.meta.Stat;
 import static animalia.content.AniFx.hatchSmoke;
 import static mindustry.Vars.*;
 
-@SuppressWarnings({"SpellCheckingInspection", "unused"})
-public class Incubator extends PayloadBlock {    public TextureRegion heatRegion, softShadowRegion;
+public class Incubator extends PayloadBlock {
+    public TextureRegion heatRegion, softShadowRegion;
 
     public Incubator(String name){
         super(name);
@@ -67,14 +67,14 @@ public class Incubator extends PayloadBlock {    public TextureRegion heatRegion
     }
 
     public boolean eggValid(Item i){
-        return i instanceof EggType && !i.name.contains("eggshell");
+        return i instanceof EggType && ((EggType) i).unit != null;
     }
 
     @Override
     public void setBars(){
         super.setBars();
 
-        addBar("progress", b -> new Bar("stat.health", Pal.health, ((IncubatorBuild) b)::fraction));
+        addBar("hatch", b -> new Bar("stat.hatch", Pal.accent, ((IncubatorBuild) b)::fraction));
     }
 
     @Override
@@ -132,6 +132,7 @@ public class Incubator extends PayloadBlock {    public TextureRegion heatRegion
 
     public class IncubatorBuild extends PayloadBlockBuild {
         UnitPayload payload;
+
         public @Nullable EggType egg;
         public float warmup = 0, progress = 0;
 
@@ -140,12 +141,16 @@ public class Incubator extends PayloadBlock {    public TextureRegion heatRegion
         }
 
         public void hatch(){
+            egg.unit.unlock();
+
             payload = new UnitPayload(egg.unit.create(team));
-            payload.set(x, y, rotdeg() - 90);
+            payload.set(x, y, rotdeg());
 
             hatchSmoke.at(x, y, Pal.meltdownHit);
 
             items.remove(egg, 1);
+            egg = null;
+
             progress %= 1;
         }
 
@@ -187,6 +192,10 @@ public class Incubator extends PayloadBlock {    public TextureRegion heatRegion
 
             if(shouldOutputPayload()){
                 moveOutPayload();
+            }
+
+            if(items.any() && egg == null){
+                egg = (EggType) items.first();
             }
 
             if(hasEgg()){
@@ -248,7 +257,7 @@ public class Incubator extends PayloadBlock {    public TextureRegion heatRegion
 
             table.row();
             table.table(t -> {
-                t.add(new Image()).size(32).pad(5).update(i -> i.setDrawable(
+                t.add(new Image()).size(24).pad(5).update(i -> i.setDrawable(
                     hasEgg() ? egg.upRegion : payload != null ? payload.unit.type.fullIcon : Icon.warning.getRegion()
                 ));
 
@@ -259,7 +268,7 @@ public class Incubator extends PayloadBlock {    public TextureRegion heatRegion
         }
 
         public boolean hasEgg(){
-            return egg != null && enabled;
+            return egg != null && payload == null && enabled;
         }
 
         public boolean shouldOutputPayload(){
@@ -270,7 +279,7 @@ public class Incubator extends PayloadBlock {    public TextureRegion heatRegion
         @Override
         public void handleItem(Building source, Item item){
             super.handleItem(source, item);
-            egg = (EggType) items.first();
+            if(egg == null) egg = (EggType) items.first();
         }
 
         @Override

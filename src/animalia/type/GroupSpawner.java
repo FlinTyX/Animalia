@@ -4,14 +4,13 @@ import animalia.type.unit.AnimalType;
 import arc.func.Boolf;
 import arc.math.Mathf;
 import arc.struct.Seq;
-import arc.util.Log;
 import mindustry.Vars;
 import mindustry.world.Tile;
 
 public class GroupSpawner {
     public static Seq<GroupSpawner> spawners = new Seq<>();
     public Seq<SpawnableAnimal> types = new Seq<>();
-    public float spawnChance = 0.00002f;
+    public float spawnChance = 0.0001f;
 
     public GroupSpawner(){
         spawners.add(this);
@@ -43,6 +42,8 @@ public class GroupSpawner {
     public SpawnableAnimal sort(){
         Seq<SpawnableAnimal> valids = types.select(s -> s.canSpawn());
         Seq<Float> chances = new Seq<>();
+
+        if(valids.size < 1) return null;
 
         float total = 0;
 

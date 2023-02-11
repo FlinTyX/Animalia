@@ -1,10 +1,10 @@
 name: animalia
 displayName: "Animalia"
-description: "A mod that contains unique biological forms, blocks, machines and mechanics to discover the world of the Animalia Kingdom!"
+description: "A fun mod that contains Animals, Plants, Natural disasters and a lot more!"
 author: "Flin"
 java: true
 main: "animalia.Animalia"
-repo: FlinTyx/Animalia
+repo: FlinTyX/Animalia
 keepOutlines: true
 version: "java 1.0"
-minGameVersion: 140
+minGameVersion: 141

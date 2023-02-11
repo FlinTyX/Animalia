@@ -2,6 +2,7 @@ package animalia.type;
 
 import arc.Core;
 import arc.math.Mathf;
+import arc.util.Log;
 import arc.util.Nullable;
 import mindustry.gen.WeatherState;
 import mindustry.type.Weather;
@@ -11,9 +12,9 @@ import static animalia.ui.AniUI.*;
 
 public class Cataclysm extends Weather {
     public Consequence[] consequences = {};
-    public @Nullable Weather child = null;
+    public @Nullable Weather child;
 
-    public float warnDuration = 60 * 6, childSpawnChance = 0.2f;
+    public float warnDuration = 60 * 6, childSpawnChance = 0.3f;
     public boolean warns = true, updates = false;
 
     public Cataclysm(String name){
@@ -57,11 +58,11 @@ public class Cataclysm extends Weather {
 
     @Override
     public void remove(){
-        super.remove();
-
-        if(child != null && Mathf.chance(childSpawnChance)){
+        if(child != null && Mathf.chanceDelta(childSpawnChance)){
             child.create();
         }
+
+        super.remove();
     }
 
     @Override
@@ -70,7 +71,7 @@ public class Cataclysm extends Weather {
     }
 
     public String build(){
-        return Core.bundle.format("weather.weather-lord-warning", localizedName);
+        return Core.bundle.format("weather.animalia-warning", localizedName);
     }
 
     public void initConsequences(WeatherState state){

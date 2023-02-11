@@ -20,15 +20,17 @@ public class PoisonousFrogType extends FrogType {
     public void setStats(){
         super.setStats();
 
-        addStats(stats, Stat.size, true, statValueBundle("stat.poisonous", "true"));
+        addStats(stats, Stat.size, true, statValueBundle("stat.poisonous", "yes"));
     }
 
     @Override
     public void update(Unit unit){
         super.update(unit);
 
-        Units.nearby(unit.team, unit.x, unit.y, unit.type.range, u -> {
-            if(u != unit && !u.type.flying && !(u.type() instanceof PoisonousFrogType)){
+        float r = unit.type.range;
+
+        Units.nearby(unit.x - r, unit.y - r, r * 2, r * 2, u -> {
+            if(u.within(unit.x, unit.y, r + u.hitSize / 2f) && !u.type.flying && !(u.type() instanceof PoisonousFrogType)){
                 u.apply(effect, effectTime);
             }
         });

@@ -16,6 +16,7 @@ import arc.util.Tmp;
 import mindustry.Vars;
 import mindustry.gen.Building;
 import mindustry.gen.MechUnit;
+import mindustry.gen.Unit;
 import mindustry.graphics.Layer;
 import mindustry.world.blocks.environment.Floor;
 
@@ -82,11 +83,11 @@ public class FrogEntity extends MechUnit {
 
     public boolean onLiquid(){
         Floor f = floorOn();
-        return swimming = f != null && !f.solid && f.isLiquid && !jumping;
+        return f != null && !f.solid && f.isLiquid && !jumping;
     }
 
     public float slope(){
-        return Math.abs((0.5f - Math.abs((time / extension) - 0.5f)) * 2);
+        return extension > 0 ? Math.abs((0.5f - Math.abs((time / extension) - 0.5f)) * 2) : 0;
     }
 
     public boolean canSwim(){
@@ -97,6 +98,16 @@ public class FrogEntity extends MechUnit {
         return timer.get(0, type().jumpSize * 1.3f) &&
                !(jumping || swimming) && !onLiquid() &&
                !(isShooting && type().usesTongue);
+    }
+
+    @Override
+    public boolean canShoot(){
+        return !moving() && (!type().usesTongue || (
+                    !(swimming || jumping || gliding) &&
+                    mounts[0].target != null &&
+                    mounts[0].target instanceof Unit u &&
+                    Math.abs(rotation - angleTo(u)) < 3.6f
+               ));
     }
 
     @Override
@@ -112,8 +123,9 @@ public class FrogEntity extends MechUnit {
             time += Time.delta;
         } else idle();
 
-        if(jumping || swimming || gliding){
-            if(onLiquid()) {
+        //TODO probably a system like adaptions in the future?
+        if(jumping || gliding || (swimming && onLiquid())){
+            if(onLiquid()){
                 rotation = Angles.moveToward(rotation, Mathf.randomSeed((long) extension, 360), Time.delta * 2);
             }
 
@@ -121,61 +133,8 @@ public class FrogEntity extends MechUnit {
         }
     }
 
-    @Override
-    public void draw(){
-        FrogType type = type();
-
-        Draw.z(Layer.groundUnit - 0.001f);
-
-        if(!jumping){
-            if(!onLiquid()){
-
-                drawOutlineRegion(type.outlineRegion, type.outlineRegion.width, type.outlineRegion.height);
-                Draw.rect(type.region, x, y, rotation - 90);
-
-            } else {
-
-                drawOutlineRegion(type.swimOutlineRegion, type.swimOutlineRegion.width, type.swimOutlineRegion.height);
-                Draw.rect(type.swimRegion, x, y, rotation - 90);
-
-            }
-        } else {
-            //complete shit
-
-            float elevation = 8 * slope();
-
-            Draw.reset();
-
-            type.applyColor(self());
-            type.applyOutlineColor(self());
-
-            Draw.rect(
-                type.jumpOutlineRegion, x, y,
-                type.jumpOutlineRegion.width * Draw.scl * Draw.xscl + elevation,
-                type.jumpOutlineRegion.height * Draw.scl * Draw.yscl + elevation, rotation - 90
-            );
-
-            Draw.reset();
-
-            Draw.rect(
-                type.jumpRegion, x, y,
-                type.jumpRegion.width * Draw.scl + elevation,
-                type.jumpRegion.height * Draw.scl + elevation, rotation - 90
-            );
-        }
-
-        Draw.z(Layer.groundUnit);
-        super.draw();
-    }
-
     public void drawOutlineRegion(TextureRegion region, float width, float height){
-        Draw.reset();
-
-        type.applyColor(self());
-        type.applyOutlineColor(self());
-
         Draw.rect(region, x, y, width * Draw.scl * Draw.xscl, height * Draw.scl * Draw.yscl, rotation - 90);
-        Draw.reset();
     }
 
     @Override

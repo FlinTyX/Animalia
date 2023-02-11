@@ -1,25 +1,26 @@
 package animalia.ai.types;
 
 import animalia.entities.units.FrogEntity;
+import animalia.type.unit.FrogType;
 import animalia.world.environment.SeasonalTree.SeasonalTreeBuild;
 import arc.math.Angles;
 import arc.math.Mathf;
 import arc.math.geom.Point3;
 import arc.util.Interval;
 import arc.util.Time;
+import mindustry.Vars;
+import mindustry.core.World;
 import mindustry.entities.Units;
 import mindustry.entities.units.AIController;
+import mindustry.gen.Teamc;
+import mindustry.gen.Unit;
 
 public class FrogAI extends AIController {
-    protected Interval action = new Interval();
-
     @Override
     public void updateMovement(){
         FrogEntity u = (FrogEntity) unit;
 
         if(u.type().usesTongue){
-            //TODO frog tongue
-            updateWeapons();
             faceTarget();
         }
 
@@ -34,8 +35,10 @@ public class FrogAI extends AIController {
             }
         }
 
-        if(u.over != null) {
-            if (Mathf.chance(u.type().swimChance) && u.onLiquid() && u.canSwim()) {
+        if(u.over != null){
+
+        } else {
+            if(Mathf.chance(u.type().swimChance) && u.onLiquid() && u.canSwim()) {
                 u.swim();
                 return;
             }
@@ -48,10 +51,24 @@ public class FrogAI extends AIController {
 
     @Override
     public void faceTarget(){
-        if(target != null && unit.canShoot()){
+        FrogEntity u = (FrogEntity) unit;
+
+        if(target != null && !(u.jumping || u.swimming || u.gliding)){
             unit.rotation = Angles.moveToward(unit.rotation, unit.angleTo(target), Time.delta * 4);
         } else if(unit.moving()){
             unit.lookAt(unit.vel().angle());
         }
+    }
+
+    @Override
+    public boolean invalid(Teamc target){
+        return Units.invalidateTarget(target, unit.team, unit.x, unit.y) ||
+            !(target instanceof Unit u && (u.type.flying || u.hitSize <= ((FrogType) unit.type()).tongueMaxCap) && !World.raycast(
+                World.toTile(unit.x),
+                World.toTile(unit.y),
+                World.toTile(u.x),
+                World.toTile(u.y),
+                (x, y) -> Vars.world.build(x, y) != null || Vars.world.tile(x, y).solid()
+            ));
     }
 }

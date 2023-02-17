@@ -14,14 +14,8 @@ jobs:
         java-version: 16
     - name: Android SDK
       run: echo "${ANDROID_HOME}/build-tools/29.0.3" >> $GITHUB_PATH
-    - name: Grant execute permissions
-      run: |
-        chmod +x gradlew
-        chmod +x alpha-bleed
-        chmod +x alpha-bleeding-linux.exe
     - name: Build with Gradle
       run: ./gradlew alphableed buildDex
-
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v2.2.1
       with:

@@ -16,8 +16,8 @@ jobs:
       run: echo "${ANDROID_HOME}/build-tools/29.0.3" >> $GITHUB_PATH
     - name: Build Jar
       run: ./gradlew deploy
-    - name: Upload built jar file
-      uses: actions/upload-artifact@v2
+    - name: Upload jar
+      uses: actions/upload-artifact@v2.2.1
       with:
         name: ${{ github.event.repository.name }}
         path: build/libs/${{ github.event.repository.name }}.jar

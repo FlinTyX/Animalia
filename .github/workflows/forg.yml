@@ -14,8 +14,6 @@ jobs:
         java-version: 16
     - name: Android SDK
       run: echo "${ANDROID_HOME}/build-tools/29.0.3" >> $GITHUB_PATH
-    - name: Build Jar
-      run: ./gradlew deploy
     - name: Grant execute permissions
       run: |
         chmod +x gradlew

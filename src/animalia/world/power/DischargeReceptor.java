@@ -59,16 +59,16 @@ public class DischargeReceptor extends PowerBlock {
         public void charge(float amount){
             if(power != null){
                 power.graph.chargeBatteries(amount * 60);
-                heat = 1;
+                heat = 1f;
 
-                if(power.graph.getBatteryStored() / power.graph.getTotalBatteryCapacity() == 1){
-                    power.graph.all.forEach(build -> {
-                    if(build.block instanceof PowerBlock){
-                        Call.buildDestroyed(build);
-                    }
+                if(power.graph.getBatteryStored() / power.graph.getTotalBatteryCapacity() == 1f){
+                    power.graph.all.each(build -> {
+                        if(build.block instanceof PowerBlock){
+                            Call.buildDestroyed(build);
+                        }
                     });
                 } else if(Mathf.chanceDelta(0.2f)){
-                    damage(20);
+                    damage(20f);
                 }
             }
         }
@@ -78,8 +78,8 @@ public class DischargeReceptor extends PowerBlock {
             super.updateTile();
 
             if(power != null){
-                enabled = power.graph.batteries.size > 0;
-                heat = Mathf.lerpDelta(heat, 0, 0.005f);
+                enabled = power.graph.batteries.size > 0f;
+                heat = Mathf.lerpDelta(heat, 0f, 0.005f);
             }
         }
 
@@ -89,7 +89,7 @@ public class DischargeReceptor extends PowerBlock {
             float rad = 1.6f, size = 22 * Draw.scl;
 
             Draw.z(Layer.turret + 0.001f);
-            Draw.color(0, 0, 0, 0.34f);
+            Draw.color(0f, 0f, 0f, 0.34f);
 
             Draw.rect(softShadowRegion, this, size * rad * Draw.xscl, size * rad * Draw.yscl, rotdeg());
             Draw.color();

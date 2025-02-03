@@ -56,7 +56,7 @@ public class AniBlocks {
 
             hasItems = true;
             hasLiquids = true;
-            outputLiquid = new LiquidStack(AniLiquids.nutritiveSolution, 0.18f);
+            outputLiquid = new LiquidStack(AniLiquids.nutritiveSolution, 0.2f);
 
             drawer = new DrawMulti(
                 new DrawRegion("-bottom"),
@@ -78,11 +78,11 @@ public class AniBlocks {
                 new DrawDefault()
             );
 
-            requirements(Category.crafting, with(Items.lead, 70, Items.silicon, 60, Items.metaglass, 60));
+            requirements(Category.crafting, with(Items.lead, 80, Items.silicon, 80, Items.metaglass, 60));
 
             consumePower(4f);
             consumeItem(Items.sporePod, 4);
-            consumeLiquid(Liquids.water, 0.28f);
+            consumeLiquid(Liquids.water, 0.2f);
         }};
 
         carbonizer = new GenericCrafter("carbonizer"){{
@@ -91,6 +91,7 @@ public class AniBlocks {
             hasLiquids = false;
 
             craftTime = 135f;
+
             craftEffect = smeltsmoke;
             updateEffect = pulverizeSmall;
             updateEffectChance = 0.008f;
@@ -107,7 +108,7 @@ public class AniBlocks {
                 new DrawDefault()
             );
 
-            consumePower(3.2f);
+            consumePower(3f);
             consumeItem(Items.sporePod, 2);
             requirements(Category.crafting, with(Items.silicon, 90, Items.titanium, 120));
         }};
@@ -119,6 +120,7 @@ public class AniBlocks {
             itemCapacity = 8;
 
             craftTime = 360f;
+            liquidCapacity = 12f;
             craftEffect = smeltsmoke;
             updateEffect = pulverizeSmall;
             updateEffectChance = 0.008f;
@@ -131,10 +133,10 @@ public class AniBlocks {
                 new DrawRegion("-top")
             );
 
-            consumePower(2f);
+            consumePower(0.6f);
             consumeItem(Items.sand, 4);
-            consumeLiquid(Liquids.water, 0.23f);
-            requirements(Category.crafting, with(Items.copper, 90, Items.lead, 90));
+            consumeLiquid(Liquids.water, 0.1f);
+            requirements(Category.crafting, with(Items.copper, 90, Items.lead, 90, Items.silicon, 15));
         }};
 
         geneticReconstructor = new GeneticReconstructor("genetic-reconstructor"){{
@@ -143,7 +145,8 @@ public class AniBlocks {
             hasItems = true;
             hasLiquids = true;
 
-            craftTime = 600f;
+            craftTime = 1000f;
+            liquidCapacity = 32f;
             craftEffect = smeltsmoke;
 
             drawer = new DrawMulti(
@@ -152,9 +155,9 @@ public class AniBlocks {
                 new DrawDefault()
             );
 
-            consumePower(3.5f);
+            consumePower(4f);
             consumeItem(AniItems.eggshell, 1);
-            consumeLiquid(AniLiquids.nutritiveSolution, 0.16f);
+            consumeLiquid(AniLiquids.nutritiveSolution, 0.2f);
             requirements(Category.crafting, with(Items.silicon, 100, Items.graphite, 140, Items.metaglass, 140));
         }};
 
@@ -180,9 +183,9 @@ public class AniBlocks {
                 new DrawDefault()
             );
 
-            consumePower(2.5f);
-            consumeLiquid(AniLiquids.nutritiveSolution, 0.23f);
-            requirements(Category.production, with(AniItems.carbonFiber, 60, Items.silicon, 45, Items.metaglass, 45));
+            consumePower(1.2f);
+            consumeLiquid(AniLiquids.nutritiveSolution, 0.1f);
+            requirements(Category.production, with(AniItems.carbonFiber, 45, Items.silicon, 45, Items.metaglass, 45));
         }};
 
         //endregion production
@@ -201,7 +204,7 @@ public class AniBlocks {
         dischargeReceptor = new DischargeReceptor("discharge-receptor"){{
             size = 2;
 
-            requirements(Category.power, with(Items.silicon, 60, Items.graphite, 60, Items.surgeAlloy, 60));
+            requirements(Category.power, with(Items.graphite, 60, Items.copper, 60));
         }};
 
         //endregion power

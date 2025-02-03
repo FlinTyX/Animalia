@@ -91,7 +91,7 @@ public class GroupSpawner {
         }
 
         public boolean canSpawn(){
-            return type.unlocked() || !Vars.state.isCampaign();
+            return !Vars.state.isEditor() && Vars.state.isPlaying() && (type.unlocked() || !Vars.state.isCampaign());
         }
     }
 }

@@ -2,11 +2,8 @@ package animalia.ai.types;
 
 import animalia.entities.units.FrogEntity;
 import animalia.type.unit.FrogType;
-import animalia.world.environment.SeasonalTree.SeasonalTreeBuild;
 import arc.math.Angles;
 import arc.math.Mathf;
-import arc.math.geom.Point3;
-import arc.util.Interval;
 import arc.util.Time;
 import mindustry.Vars;
 import mindustry.core.World;
@@ -22,17 +19,6 @@ public class FrogAI extends AIController {
 
         if(u.type().usesTongue){
             faceTarget();
-        }
-
-        if(u.type().isArboreal()){
-            SeasonalTreeBuild tree = (SeasonalTreeBuild) Units.closestBuilding(u.team,  u.x, u.y, u.type().jumpSize, b -> b instanceof SeasonalTreeBuild);
-
-            if(tree != null){
-                Point3 branch = tree.closestBranch(u.x, u.y);
-
-                u.lookAt(u.angleTo(tree.x + branch.x, tree.y + branch.y));
-                u.jump(0);
-            }
         }
 
         if(u.over != null){

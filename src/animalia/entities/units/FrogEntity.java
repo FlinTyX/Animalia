@@ -9,15 +9,10 @@ import arc.graphics.g2d.TextureRegion;
 import arc.math.Angles;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
-import arc.util.Interval;
-import arc.util.Nullable;
-import arc.util.Time;
-import arc.util.Tmp;
-import mindustry.Vars;
+import arc.util.*;
 import mindustry.gen.Building;
 import mindustry.gen.MechUnit;
 import mindustry.gen.Unit;
-import mindustry.graphics.Layer;
 import mindustry.world.blocks.environment.Floor;
 
 public class FrogEntity extends MechUnit {
@@ -28,19 +23,6 @@ public class FrogEntity extends MechUnit {
 
     public boolean jumping, swimming, gliding;
     public float time = 0, extension = 0, step = 0;
-
-    public void jumpTo(float x, float y){
-        lookAt(x, y);
-
-        float size = type().jumpSize;
-
-        landSmoke.at(x, y);
-        target.set(x / Vars.tilesize, y / Vars.tilesize).clamp(-size, -size, size, size);
-
-        jumping = true;
-        extension = type().jumpTime;
-        step = dst(target) * 1.5f / type().jumpSize;
-    }
 
     public void jump(float angle){
         lookAt(rotation + Mathf.range(angle));
@@ -53,23 +35,9 @@ public class FrogEntity extends MechUnit {
         step = dst(target) * 1.5f / type().jumpSize;
     }
 
-    public void glide(float angle){
-        lookAt(rotation + Mathf.range(angle));
-
-        //no smoke?
-        target.trns(rotation, type().jumpSize).add(x, y);
-
-        gliding = true;
-        extension = type().glideTime;
-        step = dst(target) * 1.5f / type().glideSize;
-    }
-
     public void swim(){
-        target.trns(rotation, type().swimSize).add(x, y);
-
         swimming = true;
         extension = type().swimTime + Mathf.range(3.65f);
-        step = dst(target) * 1.5f / type().swimSize;
     }
 
     public void idle(){
@@ -95,9 +63,13 @@ public class FrogEntity extends MechUnit {
     }
 
     public boolean canJump(){
-        return timer.get(0, type().jumpSize * 1.3f) &&
-               !(jumping || swimming) && !onLiquid() &&
+        return timer.get(0, type().jumpSize * 1.7f) &&
+               !jumping && !swimming && !onLiquid() &&
                !(isShooting && type().usesTongue);
+    }
+
+    public float rotateSpeed(){
+        return onLiquid() ? type().rotateSpeed : 360f;
     }
 
     @Override
@@ -123,13 +95,13 @@ public class FrogEntity extends MechUnit {
             time += Time.delta;
         } else idle();
 
-        //TODO probably a system like adaptions in the future?
         if(jumping || gliding || (swimming && onLiquid())){
             if(onLiquid()){
-                rotation = Angles.moveToward(rotation, Mathf.randomSeed((long) extension, 360), Time.delta * 2);
+                lookAt(Mathf.randomSeed((long) extension, 360));
+                moveAt(Tmp.v1.trns(rotation, speed()));
+            } else {
+                vel.trns(rotation, step * slope());
             }
-
-            vel.trns(rotation, step * slope());
         }
     }
 
@@ -140,18 +112,29 @@ public class FrogEntity extends MechUnit {
     @Override
     public void rotateMove(Vec2 vec){
         moveAt(Tmp.v2.trns(rotation, vec.len()));
+        if(!vec.isZero()) lookAt(vec.angle());
+    }
 
-        if(!vec.isZero()){
-            rotation = Angles.moveToward(rotation, vec.angle(), type.rotateSpeed * Time.delta);
-        }
+    @Override
+    public void lookAt(float angle){
+        rotation = Angles.moveToward(rotation, angle, rotateSpeed() * Time.delta);
+    }
+
+    @Override
+    public void movePref(Vec2 movement){
+        rotateMove(movement);
     }
 
     @Override
     public void moveAt(Vec2 vector, float acceleration){
-        //acceleration = step ???
-        if(canJump()){
-            lookAt(Angles.angle(vector.x, vector.y));
-            jump(0);
+        if(!vector.isZero()){
+            lookAt(vector.angle());
+
+            if(canJump()){
+                jump(0);
+            } else if(onLiquid()){
+                super.moveAt(vector, acceleration);
+            }
         }
     }
 

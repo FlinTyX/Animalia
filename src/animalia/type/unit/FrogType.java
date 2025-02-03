@@ -11,8 +11,6 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
-import arc.math.Angles;
-import arc.math.Mathf;
 import arc.util.Tmp;
 import mindustry.entities.units.WeaponMount;
 import mindustry.gen.Mechc;
@@ -31,8 +29,7 @@ public class FrogType extends AnimalType {
     tongueReload = 120,
     tongueMaxCap =  13,
 
-    swimTime = 400,
-    swimSize = 10,
+    swimTime = 150,
     swimChance = 0.003f,
 
     jumpTime = 40,
@@ -62,13 +59,17 @@ public class FrogType extends AnimalType {
         alwaysCreateOutline = false;
         playerControllable = true;
         rotateMoveFirst = true;
-        rotateSpeed = 360;
+        omniMovement = false;
+        rotateSpeed = 4f;
+        baseRotateSpeed = 360f;
         mechStepParticles = false;
         mechFrontSway = 0;
         mechSideSway = 0;
         mechLandShake = 0;
         itemCapacity = 0;
-        speed = 0.00012f;
+        speed = 0.5f;
+        accel = 0.08f;
+        drag = 0.05f;
         hitSize = 10;
 
         controller = u -> new FrogAI();
@@ -90,6 +91,7 @@ public class FrogType extends AnimalType {
                     x = 0;
                     y = 0;
                     reload = tongueReload;
+                    controllable = false;
                     rotate = false;
                     shootCone = 3.6f;
                 }
@@ -159,9 +161,7 @@ public class FrogType extends AnimalType {
             statValueBundle("stat.swim", "yes"),
             statValueBundle("stat.jump", "yes"),
             statValueBundle("stat.glide", isArboreal() ? "yes" : "no"),
-            statValue("stat.spawns", floors),
-            statValue("stat.jumpsize", jumpSize + " " + Core.bundle.get("unit.blocks")),
-            statValue("stat.swimsize", swimSize + " " + Core.bundle.get("unit.blocks"))
+            statValue("stat.spawns", floors)
         );
     }
 
@@ -184,8 +184,6 @@ public class FrogType extends AnimalType {
 
             }
         } else {
-            //complete shit
-
             float elevation = 8 * unit.slope();
 
             Draw.rect(

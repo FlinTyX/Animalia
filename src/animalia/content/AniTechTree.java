@@ -11,12 +11,9 @@ public class AniTechTree {
 
     public static void load(){
         root = nodeRoot("animalia", frog, () -> {
-            nodeProduce(leopardFrog, () -> {
-                nodeProduce(assaultFrog, () -> {});
-                nodeProduce(exoticFrog, () -> {
-                    //node(glidingFrog, () -> {});
-                });
-            });
+            node(leopardFrog, () -> {});
+            node(assaultFrog, () -> {});
+            node(exoticFrog, () -> {});
 
             node(eggshellPrinter, () -> {
                 node(carbonizer, () -> {

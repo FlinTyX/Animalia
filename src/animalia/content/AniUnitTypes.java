@@ -6,7 +6,6 @@ import animalia.type.unit.*;
 import arc.func.*;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
-import arc.math.Angles;
 import arc.math.Mathf;
 import arc.struct.*;
 import arc.struct.ObjectMap.*;
@@ -14,7 +13,6 @@ import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.content.Blocks;
 import mindustry.entities.bullet.BasicBulletType;
-import mindustry.entities.units.WeaponMount;
 import mindustry.gen.*;
 
 import static animalia.sound.AniSounds.*;
@@ -125,9 +123,12 @@ public class AniUnitTypes {
             usesTongue = true;
             health = 100;
             armor =  2;
+            speed = 0.65f;
 
             jumpTime = 35;
+            jumpSize = 6.5f;
             jumpChance  = 0.004f;
+            swimTime = 120;
             spawnChance = 0.8f;
 
             spawnsOn.add(Blocks.water, Blocks.darksandWater);
@@ -154,7 +155,7 @@ public class AniUnitTypes {
          */
 
         phroge = new FrogType("phroge"){{
-            spawnChance = 0.01f;
+            spawnChance = 0.002f;
             health = 230;
 
             spawnsOn.add(Blocks.water, Blocks.darksandWater);

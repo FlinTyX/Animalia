@@ -17,9 +17,11 @@ public class FrogWeapon extends Weapon {
     public void draw(Unit unit, WeaponMount mount){
         super.draw(unit, mount);
 
+        FrogEntity u = (FrogEntity) unit;
+
         float
         z = Draw.z(),
-        e = 9 * ((FrogEntity) unit).slope(),
+        e = 9 * (u.onLiquid() ? 0 : u.slope()),
         rotation = unit.rotation - 90,
         realRecoil = Mathf.pow(mount.recoil, recoilPow) * recoil,
         weaponRotation  = rotation + (rotate ? mount.rotation : baseRotation),
